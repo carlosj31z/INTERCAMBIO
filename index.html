@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>El Regalo Escondido | Documentación Técnica</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--pine:#123f32;--pine2:#1b5944;--berry:#a92f3c;--gold:#d8b46a;--cream:#fff9ef;--paper:#fffdf8;--ink:#27332d;--muted:#788078;--line:#e9dfcf}
+*{box-sizing:border-box}body{margin:0;color:var(--ink);font-family:'DM Sans',sans-serif;background:radial-gradient(ellipse at 12% 5%,#e9f0e4 0,transparent 30%),radial-gradient(ellipse at 90% 18%,#f5e7df 0,transparent 28%),var(--cream);min-height:100vh}
+header{background:linear-gradient(110deg,#10382d,#1b5944);color:white;padding:18px max(20px,calc((100% - 1120px)/2));display:flex;align-items:center;justify-content:space-between;gap:15px;border-bottom:3px solid var(--gold);position:relative;overflow:hidden}
+header:after{content:"✦  ❄  ✧  ❄  ✦";position:absolute;right:15%;top:4px;color:#ffffff1e;font-size:38px;letter-spacing:18px;pointer-events:none}
+.brand{font:800 24px 'Playfair Display',serif;position:relative;z-index:1}.brand small{display:block;font:600 10px 'DM Sans';letter-spacing:2px;text-transform:uppercase;color:#e8d7aa;margin-top:4px}
+button{border:0;border-radius:12px;padding:12px 16px;background:var(--berry);color:white;font:700 14px 'DM Sans';cursor:pointer;box-shadow:0 4px 10px #76202a1a;transition:.18s}button:hover{transform:translateY(-1px);filter:brightness(1.05)}button:disabled{opacity:.45;cursor:not-allowed;transform:none}.secondary{background:#edf1e9;color:var(--pine);box-shadow:none}.outline{background:transparent;border:1px solid #ffffff80;color:white;box-shadow:none}
+main{max-width:1120px;margin:34px auto;padding:0 20px}.hidden{display:none!important}.hero{background:linear-gradient(120deg,#fffdf8ed,#fff7e8ed);border:1px solid #eadfc9;border-radius:24px;padding:30px;display:flex;align-items:center;justify-content:space-between;gap:20px;position:relative;overflow:hidden;margin-bottom:22px;box-shadow:0 14px 35px #34472d0a}
+.hero:after{content:"🎄";position:absolute;right:27%;bottom:-32px;font-size:115px;opacity:.09;transform:rotate(-10deg);pointer-events:none}.eyebrow{font-size:10px;letter-spacing:2.3px;text-transform:uppercase;font-weight:800;color:var(--berry)}
+h1,h2{font-family:'Playfair Display',serif}h1{font-size:clamp(31px,5vw,46px);margin:8px 0;color:var(--pine)}h2{margin:0 0 12px;color:var(--pine);font-size:25px}p{color:var(--muted);line-height:1.6;margin:8px 0}
+.panel{background:var(--paper);border:1px solid var(--line);border-radius:20px;padding:23px;margin-bottom:20px;box-shadow:0 9px 28px #34472d08}
+.auth{max-width:570px;margin:48px auto}.auth-intro{text-align:center}.ornament{font-size:28px;letter-spacing:7px;margin-bottom:8px}.field{display:flex;flex-direction:column;gap:7px;margin:14px 0}.field label{font-size:13px;font-weight:700;color:#45534a}
+select,input,textarea{width:100%;border:1px solid #ded8ca;border-radius:11px;padding:13px;font:14px 'DM Sans';background:white;color:var(--ink);outline:none}select:focus,input:focus,textarea:focus{border-color:var(--pine2);box-shadow:0 0 0 3px #1b594414}textarea{min-height:86px;resize:vertical}
+.name-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:9px;margin:17px 0}.name-option{background:#fff;border:1px solid var(--line);color:var(--pine);box-shadow:none;text-align:left;display:flex;align-items:center;justify-content:space-between;padding:13px 14px}.name-option:after{content:"🎁";font-size:15px}.name-option.selected{background:#edf4ec;border:1.5px solid var(--pine2);box-shadow:0 0 0 3px #1b594414}.name-option.taken{opacity:.38;cursor:not-allowed;text-decoration:line-through}
+.status{font-size:13px;min-height:18px;margin-top:10px;color:var(--pine2)}.notice{background:#f5f0e3;border-left:3px solid var(--gold);padding:12px 14px;border-radius:9px;color:#665a40;font-size:12px;line-height:1.5}
+.topline{display:flex;align-items:center;justify-content:space-between;gap:12px}.counter{font-size:12px;color:var(--muted);font-weight:700;background:#f2f0e8;padding:7px 10px;border-radius:30px}
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:15px}.gift{border:1px solid var(--line);border-radius:16px;overflow:hidden;background:#fff;position:relative}.photo{height:175px;background:linear-gradient(135deg,#f5f0e5,#e9eee6);display:grid;place-items:center;color:#9a9e8d;font-size:42px}.photo img{width:100%;height:100%;object-fit:cover}.giftbody{padding:15px}.giftbody h3{margin:0 0 7px;font:700 18px 'Playfair Display',serif;color:var(--pine)}.giftbody p{font-size:13px;margin:8px 0;white-space:pre-wrap}.giftbody a{font-size:13px;color:var(--berry);overflow-wrap:anywhere}.actions{display:flex;gap:7px;margin-top:13px}.actions button{font-size:12px;padding:8px 10px}.empty{border:1px dashed #d8cfbd;border-radius:15px;padding:27px;text-align:center;color:var(--muted);background:#fffdf8}.person{border:1px solid var(--line);border-radius:16px;padding:15px;background:#fff}.person h3{font:700 18px 'Playfair Display',serif;color:var(--pine);margin:0}.person small{color:var(--muted)}.person .grid{grid-template-columns:1fr;margin-top:12px}.section-note{font-size:13px;margin-top:-5px}
+footer{text-align:center;padding:30px 15px;color:#8a8d7d;font-size:12px}.snowline{color:#b9a06b;letter-spacing:8px;font-size:18px;margin:15px 0}
+#modal{position:fixed;inset:0;background:#10291fe6;z-index:5;overflow:auto;padding:20px}.modalbox{max-width:550px;margin:30px auto}
+@media(max-width:740px){.grid{grid-template-columns:1fr}.name-grid{grid-template-columns:1fr 1fr}.hero{display:block;padding:23px}.hero button{margin-top:14px}.hero:after{right:2%;font-size:85px}header{padding:16px 20px}.panel{padding:18px}.topline{align-items:flex-start;flex-direction:column}}
+</style></head>
+<body>
+<header><div class="brand">🎄 El Regalo Escondido <small>Documentación Técnica · Intercambio Navideño</small></div><button id="logout" class="outline hidden">Salir</button></header>
+<main>
+<section id="chooseView" class="panel auth">
+<div class="auth-intro"><div class="ornament">❄ ✦ 🎁 ✦ ❄</div><div class="eyebrow">Edición navideña · Documentación Técnica</div><h1>¿Quién eres en esta Navidad?</h1><p>Elige tu nombre para entrar a tu lista de deseos. <b>No necesitas contraseña ni correo.</b></p></div>
+<div class="notice">Selecciona tu nombre de la lista. Cada participante podrá guardar hasta tres ideas de regalo, con notas, enlaces y fotos.</div>
+<div id="nameGrid" class="name-grid"></div>
+<button id="enterBtn" style="width:100%" disabled>Entrar a mi lista ✨</button><div id="authMsg" class="status"></div>
+</section>
+<section id="appView" class="hidden">
+<div class="hero"><div><div class="eyebrow">❄ Que empiece la magia ❄</div><h1>¡Hola, <span id="helloName">amigo secreto</span>!</h1><p>Deja algunas pistas para que tu amigo secreto encuentre el regalo perfecto.</p></div><button id="newGift">＋ Añadir deseo</button></div>
+<div class="panel"><div class="topline"><div><div class="eyebrow">Tu carta a Santa</div><h2>Mi lista de deseos</h2></div><span class="counter" id="myCount">0 / 3 deseos</span></div><div id="myGifts" class="grid"></div><div id="myEmpty" class="empty">✨ Tu carta todavía está en blanco.<br>Agrega tu primer deseo navideño.</div></div>
+<div class="panel"><div class="eyebrow">El buzón del equipo</div><h2>Los deseos de Documentación Técnica</h2><p class="section-note">Mira las ideas que han compartido tus compañeros para inspirarte.</p><div id="people" class="grid"></div><div id="peopleEmpty" class="empty hidden">Aún no hay deseos de otros participantes. ¡Pronto aparecerán aquí!</div></div>
+</section>
+</main><footer><div class="snowline">✦ ❄ ✦ ❄ ✦</div>Hecho con cariño para el equipo de Documentación Técnica · Navidad</footer>
+<div id="modal" class="hidden"><div class="panel modalbox"><div class="topline"><div><div class="eyebrow">Un deseo para Navidad</div><h2 id="modalTitle">Añadir a mi carta</h2></div><button id="closeModal" class="secondary">✕</button></div>
+<form id="giftForm"><input id="giftId" type="hidden"><div class="field"><label>¿Qué regalo te gustaría? *</label><input id="giftName" maxlength="90" required placeholder="Ej. Una mochila, libro, taza..."></div>
+<div class="field"><label>Notas y pistas</label><textarea id="giftNotes" maxlength="600" placeholder="Color, talla, modelo, gustos o cualquier detalle..."></textarea></div>
+<div class="field"><label>Enlace de referencia</label><input id="giftUrl" type="url" placeholder="https://..."></div>
+<div class="field"><label>Foto de referencia (opcional)</label><input id="giftPhoto" type="file" accept="image/jpeg,image/png,image/webp"></div>
+<div class="notice">Hasta 3 deseos por persona. Foto JPG, PNG o WEBP de máximo 5 MB.</div>
+<button type="submit" style="width:100%;margin-top:15px">Guardar mi deseo 🎁</button><div id="giftMsg" class="status"></div></form></div></div>
+<script>
+const SUPABASE_URL="https://sjjtblsoegvvuwduqvgk.supabase.co";
+const SUPABASE_ANON_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXAiLCJyZWYiOiJzanp0Ymxzb2VndnZ3ZHVxdmdrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTQ1OTMwNTAsImV4cCI6MjExMDE2OTA1MH0.FzlTdds_09750eLaj5fUze-xL9xLrp3yTQ6vrC3-PpE";
+const NAMES=["DELIA","GIANINNA","KARLA","EMILIA","DINA","MONICA","NOELIA","MIRIAM","CARLOS","SONIA","MARLENY"];
+const db=window.supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY);
+let user=null,participant=null,gifts=[],selectedName=null;
+const $=id=>document.getElementById(id),esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function msg(id,t){$(id).textContent=t}
+async function loadNames(){
+ const {data,error}=await db.from('participants').select('id,name,user_id').order('sort_order');
+ if(error){msg('authMsg','No se pudo cargar la lista. Ejecuta primero el archivo SQL de configuración.');return}
+ $('nameGrid').innerHTML=data.map(p=>`<button class="name-option ${p.user_id?'taken':''} ${selectedName===p.name?'selected':''}" ${p.user_id?'disabled':''} data-name="${esc(p.name)}">${esc(p.name)}${p.user_id?' · ocupado':''}</button>`).join('');
+ document.querySelectorAll('.name-option:not(.taken)').forEach(b=>b.onclick=()=>{selectedName=b.dataset.name;document.querySelectorAll('.name-option').forEach(x=>x.classList.toggle('selected',x.dataset.name===selectedName));$('enterBtn').disabled=false;msg('authMsg','Has elegido '+selectedName+'.')});
+}
+$('enterBtn').onclick=async()=>{
+ if(!selectedName)return;$('enterBtn').disabled=true;msg('authMsg','Preparando tu acceso navideño...');
+ try{
+  let {data:{session}}=await db.auth.getSession();
+  if(!session){const {data,error}=await db.auth.signInAnonymously();if(error)throw error;session=data.session}
+  user=session.user;
+  const {data:existing,error:findErr}=await db.from('participants').select('*').eq('user_id',user.id).maybeSingle();if(findErr)throw findErr;
+  if(existing){participant=existing}
+  else{
+   const {data:target,error:targetErr}=await db.from('participants').select('*').eq('name',selectedName).is('user_id',null).maybeSingle();if(targetErr)throw targetErr;if(!target)throw new Error('Ese nombre ya fue elegido por otra persona. Actualiza la lista y selecciona otro.');
+   const {data:claimed,error:claimErr}=await db.from('participants').update({user_id:user.id}).eq('id',target.id).is('user_id',null).select().maybeSingle();if(claimErr)throw claimErr;if(!claimed)throw new Error('Ese nombre acaba de ser ocupado. Elige otro participante.');
+   participant=claimed;
+  }
+  await enterApp();
+ }catch(e){msg('authMsg',e.message);await loadNames()}finally{$('enterBtn').disabled=!selectedName}
+};
+async function enterApp(){
+ $('chooseView').classList.add('hidden');$('appView').classList.remove('hidden');$('logout').classList.remove('hidden');$('helloName').textContent=participant.name;
+ await refresh();
+}
+async function refresh(){
+ const {data,error}=await db.from('gift_list_with_names').select('id,participant_id,title,notes,url,image_path,created_at,participant_name').order('created_at');
+ if(error){alert('No se pudieron cargar los deseos: '+error.message);return}gifts=data||[];render();
+}
+function photoUrl(path){return path?db.storage.from('gift-photos').getPublicUrl(path).data.publicUrl:''}
+function card(g,owner=false){const pic=photoUrl(g.image_path);return `<article class="gift"><div class="photo">${pic?`<img src="${esc(pic)}" alt="Foto de ${esc(g.title)}">`:'🎁'}</div><div class="giftbody"><h3>${esc(g.title)}</h3>${g.notes?`<p>${esc(g.notes)}</p>`:''}${g.url?`<a href="${esc(g.url)}" target="_blank" rel="noopener">Abrir referencia ↗</a>`:''}${owner?`<div class="actions"><button class="secondary" onclick="editGift('${g.id}')">Editar</button><button onclick="deleteGift('${g.id}')">Eliminar</button></div>`:''}</div></article>`}
+function render(){
+ const mine=gifts.filter(g=>g.participant_id===participant.id);$('myCount').textContent=`${mine.length} / 3 deseos`;$('newGift').disabled=mine.length>=3;$('myGifts').innerHTML=mine.map(g=>card(g,true)).join('');$('myEmpty').classList.toggle('hidden',mine.length>0);
+ const others=gifts.filter(g=>g.participant_id!==participant.id);const grouped={};others.forEach(g=>(grouped[g.participant_id]??=[]).push(g));
+ $('people').innerHTML=Object.entries(grouped).map(([id,arr])=>`<div class="person"><h3>🎄 ${esc(arr[0].participant_name)}</h3><small>${arr.length} deseo(s) en su carta</small><div class="grid">${arr.map(g=>card(g)).join('')}</div></div>`).join('');$('peopleEmpty').classList.toggle('hidden',others.length>0);
+}
+function openModal(g){$('giftForm').reset();$('giftId').value=g?.id||'';$('giftName').value=g?.title||'';$('giftNotes').value=g?.notes||'';$('giftUrl').value=g?.url||'';$('giftMsg').textContent='';$('modalTitle').textContent=g?'Editar mi deseo':'Añadir a mi carta';$('modal').classList.remove('hidden')}
+$('newGift').onclick=()=>openModal();$('closeModal').onclick=()=>$('modal').classList.add('hidden');
+window.editGift=id=>openModal(gifts.find(g=>g.id===id));
+window.deleteGift=async id=>{if(!confirm('¿Eliminar este deseo de tu carta?'))return;const g=gifts.find(x=>x.id===id);const {error}=await db.from('gifts').delete().eq('id',id);if(error){alert(error.message);return}if(g?.image_path)await db.storage.from('gift-photos').remove([g.image_path]);await refresh()};
+$('giftForm').onsubmit=async e=>{
+ e.preventDefault();const id=$('giftId').value,title=$('giftName').value.trim(),notes=$('giftNotes').value.trim(),url=$('giftUrl').value.trim(),file=$('giftPhoto').files[0];
+ if(file&&(file.size>5*1024*1024||!['image/jpeg','image/png','image/webp'].includes(file.type))){msg('giftMsg','La imagen debe ser JPG, PNG o WEBP y pesar máximo 5 MB.');return}
+ const mine=gifts.filter(g=>g.participant_id===participant.id);if(!id&&mine.length>=3){msg('giftMsg','Tu carta ya tiene sus 3 deseos.');return}
+ const submit=$('giftForm').querySelector('button[type=submit]');submit.disabled=true;msg('giftMsg','Guardando tu deseo...');
+ try{
+  const old=id?gifts.find(g=>g.id===id):null;let image_path=old?.image_path||null;
+  if(file){const path=`${user.id}/${crypto.randomUUID()}-${file.name.replace(/[^a-zA-Z0-9._-]/g,'_')}`;const {error}=await db.storage.from('gift-photos').upload(path,file,{contentType:file.type});if(error)throw error;image_path=path}
+  const payload={participant_id:participant.id,title,notes,url,image_path};
+  const result=id?await db.from('gifts').update(payload).eq('id',id):await db.from('gifts').insert(payload);if(result.error)throw result.error;
+  if(file&&old?.image_path)await db.storage.from('gift-photos').remove([old.image_path]);$('modal').classList.add('hidden');await refresh();
+ }catch(err){msg('giftMsg',err.message)}finally{submit.disabled=false}
+};
+$('logout').onclick=async()=>{await db.auth.signOut();location.reload()};
+(async()=>{
+ const {data:{session}}=await db.auth.getSession();
+ if(session){user=session.user;const {data:p}=await db.from('participants').select('*').eq('user_id',user.id).maybeSingle();if(p){participant=p;await enterApp();return}}
+ await loadNames();
+})();
+</script></body></html>
